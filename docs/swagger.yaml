@@ -1,0 +1,120 @@
+definitions:
+  model.ParkRequest:
+    properties:
+      type:
+        example: A
+        type: string
+      vehicleNumber:
+        example: B1234XYZ
+        type: string
+    type: object
+  model.UnparkRequest:
+    properties:
+      spotId:
+        example: 0-0-2
+        type: string
+      vehicleNumber:
+        example: B1234XYZ
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/parkings:
+    post:
+      parameters:
+      - description: Vehicle info
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.ParkRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+  /api/v1/parkings/available:
+    get:
+      parameters:
+      - description: Vehicle Type (B, M, A)
+        in: query
+        name: type
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+  /api/v1/parkings/search/{vehicleNumber}:
+    get:
+      parameters:
+      - description: Vehicle Number
+        in: path
+        name: vehicleNumber
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+  /api/v1/parkings/unpark:
+    post:
+      parameters:
+      - description: Vehicle info
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.UnparkRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+swagger: "2.0"
